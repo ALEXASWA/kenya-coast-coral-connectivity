@@ -26,8 +26,15 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.colors as mcolors
 
-# Use a non-interactive backend when running as a script (safe for servers too)
-matplotlib.use("Agg")
+# Set the Agg (non-interactive) backend only when running outside an
+# interactive environment.  In Jupyter notebooks the backend is already
+# configured before this module is imported, so the guard below avoids
+# overriding it.  When running as a plain script the MPLBACKEND variable or
+# a prior matplotlib.use() call may also pre-select a backend.
+import sys as _sys
+_in_notebook = "ipykernel" in _sys.modules or "IPython" in _sys.modules
+if not _in_notebook:
+    matplotlib.use("Agg")
 
 
 # ---------------------------------------------------------------------------
@@ -76,6 +83,7 @@ def plot_network(
     layout: str = "spring",
     figsize: tuple[float, float] = (12, 9),
     cmap: str = "YlOrRd",
+    color_label: str = "Node metric",
     save_path: str | None = None,
 ) -> plt.Figure:
     """Draw the directed connectivity network.
@@ -91,6 +99,7 @@ def plot_network(
     layout            : One of 'spring', 'circular', 'kamada_kawai'.
     figsize           : (width, height) in inches.
     cmap              : Matplotlib colourmap name.
+    color_label       : Label for the colour-bar (describes node_color_metric).
     save_path         : If given, the figure is saved to this path.
 
     Returns
@@ -102,6 +111,7 @@ def plot_network(
     if node_color_metric is None:
         node_color_metric = nx.betweenness_centrality(G, weight="distance",
                                                        normalized=True)
+        color_label = "Betweenness centrality"
 
     pos = _node_positions(G, layout)
     nodes = list(G.nodes())
@@ -142,7 +152,7 @@ def plot_network(
 
     sm = cm.ScalarMappable(cmap=colormap, norm=norm)
     sm.set_array([])
-    plt.colorbar(sm, ax=ax, label="Betweenness centrality", shrink=0.75)
+    plt.colorbar(sm, ax=ax, label=color_label, shrink=0.75)
 
     ax.set_title(title, fontsize=14, fontweight="bold", pad=12)
     ax.axis("off")

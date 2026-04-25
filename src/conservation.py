@@ -183,11 +183,11 @@ def composite_mpa_score(
         h  = hub.get(n, 0.0)
         composite = (w_source * s + w_stepping * st + w_hub * h) / total_w
         records.append({
-            "reef_patch":          n,
-            "source_score":        round(s,  4),
+            "reef_patch":           n,
+            "source_score":         round(s, 4),
             "stepping_stone_score": round(st, 4),
-            "hub_score":           round(h,  4),
-            "composite_score":     round(composite, 4),
+            "hub_score":            round(h, 4),
+            "composite_score":      round(composite, 4),
         })
 
     df = pd.DataFrame(records).set_index("reef_patch")
