@@ -228,6 +228,38 @@ top10 = top_priority_reefs(G, n=10, w_source=1.0, w_stepping=1.0, w_hub=1.0)
 
 ---
 
+## Generating the PowerPoint presentation
+
+```bash
+python scripts/generate_presentation.py
+```
+
+This produces `presentation.pptx` in the project root — a 19-slide widescreen (16:9) deck with:
+
+| Slide | Content |
+|---|---|
+| 1 | Title slide |
+| 2 | Project overview & objectives |
+| 3 | Study area – Kenya reef patches |
+| 4 | Methods & graph-metric definitions |
+| 5–6 | Synthetic 10-node demonstration |
+| 7–8 | Kenya connectivity heatmap & network |
+| 9 | Louvain community structure |
+| 10 | Degree distribution |
+| 11–13 | Betweenness, eigenvector, out-degree & PageRank |
+| 14 | MPA prioritisation workflow |
+| 15–16 | Top-10 priority reefs table & bar chart |
+| 17 | Conservation recommendations |
+| 18 | Conclusions & next steps |
+| 19 | References & acknowledgements |
+
+Save to a custom path:
+```bash
+python scripts/generate_presentation.py --out /path/to/output.pptx
+```
+
+---
+
 ## Reproducing results
 
 ```bash
@@ -235,6 +267,7 @@ top10 = top_priority_reefs(G, n=10, w_source=1.0, w_stepping=1.0, w_hub=1.0)
 python scripts/01_synthetic_network.py   # synthetic demo
 python scripts/02_kenya_coral_analysis.py  # Kenya metrics + plots
 python scripts/03_priority_mpa_ranking.py  # MPA ranking
+python scripts/generate_presentation.py   # generate PowerPoint deck
 ```
 
 Or open the notebook for an interactive, narrated walkthrough:
@@ -256,7 +289,9 @@ See `requirements.txt`.  Key packages:
 | `numpy` / `pandas` | Numerical computation and DataFrames |
 | `matplotlib` / `seaborn` | Plotting |
 | `scipy` | Sparse linear algebra (eigenvector centrality) |
+| `python-pptx` | PowerPoint presentation generation |
 | `notebook` / `jupyterlab` | Interactive notebook environment |
+
 
 Install with:
 ```bash
